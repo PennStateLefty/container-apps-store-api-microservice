@@ -69,7 +69,7 @@ jobs:
 
       - name: Output image tag
         id: image-tag
-        run: echo "::set-output name=image-${{ matrix.services.imageName }}::${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:$(git rev-parse --short HEAD)" | tr '[:upper:]' '[:lower:]'
+        run: echo "::set-output name=image-${{ matrix.services.imageName }}::${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-$(git rev-parse --short HEAD)" | tr '[:upper:]' '[:lower:]'
 
   deploy:
     runs-on: ubuntu-latest

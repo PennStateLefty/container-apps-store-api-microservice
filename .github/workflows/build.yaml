@@ -87,6 +87,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            echo '${{ needs.build.outputs.containerImage-node }}'
             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
              -p \
                 minReplicas=0 \

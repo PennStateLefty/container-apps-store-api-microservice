@@ -69,7 +69,7 @@ jobs:
 
       - name: Output image tag
         id: image-tag
-        run: echo "::set-output name=image-${{ matrix.services.imageName }}::${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-${{ github.sha }}"
+        run: echo "::set-output name=image-${{ matrix.services.imageName }}::gutheriecacr.azurecr.io/${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-${{ github.sha }}"
 
   deploy:
     runs-on: ubuntu-latest

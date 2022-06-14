@@ -69,7 +69,7 @@ jobs:
 
       - name: Output image tag
         id: image-tag
-        run: echo "::set-output name=image-${{ matrix.services.imageName }}::gutheriecacr.azurecr.io/${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-${{ github.sha }}"
+        run: echo "::set-output name=image-${{ matrix.services.imageName }}::${{ env.IMAGE_NAME }}/${{ matrix.services.imageName }}:sha-${{ github.sha }}"
 
   deploy:
     runs-on: ubuntu-latest
@@ -91,11 +91,11 @@ jobs:
             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
              -p \
                 minReplicas=0 \
-                nodeImage='${{ needs.build.outputs.containerImage-node }}' \
+                nodeImage='${{ env.REGISTRY }}/${{ needs.build.outputs.containerImage-node }}' \
                 nodePort=3000 \
-                pythonImage='${{ needs.build.outputs.containerImage-python }}' \
+                pythonImage='${{ env.REGISTRY }}/${{ needs.build.outputs.containerImage-python }}' \
                 pythonPort=5000 \
-                goImage='${{ needs.build.outputs.containerImage-go }}' \
+                goImage='${{ env.REGISTRY }}/${{ needs.build.outputs.containerImage-go }}' \
                 goPort=8050 \
                 containerRegistry=${{ env.REGISTRY }} \
                 containerRegistryUsername=${{ secrets.ACR_USERNAME }} \

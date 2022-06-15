@@ -78,7 +78,6 @@ jobs:
           inlineScript: |
             appName=$(az containerapp list | jq '.[].name' | grep -i go)
             echo $appName
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp update --name $appName -g ${{ secrets.RESOURCE_GROUP }} \
-                --image '${{ env.REGISTRY }}/${{ needs.build.outputs.containerImage-go }}' \
-                --revision-suffix $(git rev-parse --short HEAD)
+            echo "Installing containerapp extension"
+            az extension add --source https://workerappscliextension.blob.core.windows.net/azure-cli-extension/containerapp-0.2.0-py2.py3-none-any.whl --yes
+            az containerapp update -n $appName -g ${{ secrets.RESOURCE_GROUP }} -i '${{ env.REGISTRY }}/${{ needs.build.outputs.containerImage-go }}' --registry-login-server gutheriecacr.azurecr.io --registry-username  ${{ secrets.ACR_USERNAME }} --registry-password ${{ secrets.ACR_PASSWORD }} --revision-suffix $(git rev-parse --short HEAD) --debug

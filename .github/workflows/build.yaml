@@ -2,9 +2,9 @@
 name: Build and Deploy
 on:
   push:
-    branches: [main]
+    branches:
+      - 'IaC/**'
     # Publish semver tags as releases.
-    tags: ["v*.*.*"]
   workflow_dispatch:
 
 env:

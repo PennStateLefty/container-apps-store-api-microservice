@@ -1,4 +1,4 @@
-name: Trigger auto deployment for go-app
+name: Trigger auto deployment for node-app
 
 # When this action will be executed
 on:

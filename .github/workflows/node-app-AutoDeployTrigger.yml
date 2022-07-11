@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: gutheriecacr.azurecr.io/go-app:${{ github.sha }}
+          tags: gutheriecacr.azurecr.io/node-app:${{ github.sha }}
           file: ./node-service/Dockerfile
           context: ./node-service/
 

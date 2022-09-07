@@ -103,7 +103,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az group create -g ${{ secrets.RESOURCE_GROUP }} -l canadacentral
             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
              -p \
                 minReplicas=0 \
@@ -114,6 +113,6 @@ jobs:
                 goImage='${{ needs.package-services.outputs.containerImage-go }}' \
                 goPort=8050 \
                 containerRegistry=${{ env.REGISTRY }} \
-                containerRegistryUsername=${{ github.actor }} \
-                containerRegistryPassword=${{ secrets.GITHUB_TOKEN }} \
+                containerRegistryUsername=${{ secrets.ACR_USERNAME }} \
+                containerRegistryPassword=${{ secrets.ACR_PASSWORD }} \
                 deployApim=false

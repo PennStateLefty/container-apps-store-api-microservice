@@ -26,9 +26,9 @@ The [`go-app`](./go-service) is a Go mux app that will retrieve and store the st
 
 ## Deploy via GitHub Actions 
 
-> **IMPORTANT NOTE**: This version differs from the upstream in that it leverages Azure Container Registry rather than GitHub Packages to store container images. The deployment GitHub Workflow has been modified accordingly and now expects the following GitHub Action Secrets in addition to the others mentioned in this guide:
-1. ACR_PASSWORD
-2. ACR_USERNAME
+> **IMPORTANT NOTE**: This version differs from the upstream in that it leverages Azure Container Registry rather than GitHub Packages to store container images. The deployment GitHub Workflow has been modified accordingly and now expects the following GitHub Action Secrets in addition to the others mentioned in this guide
+
+> **Pre-Requisites**: A Resource Group against which to create a Service Principal per the instructions in the AZURE_CREDENTIALS secret section
 
 The entire solution is configured with [GitHub Actions](https://github.com/features/actions) and [Bicep](https://docs.microsoft.com/azure/azure-resource-manager/bicep/overview) for CI/CD. 
 1. Fork the sample repo
@@ -37,7 +37,7 @@ The entire solution is configured with [GitHub Actions](https://github.com/featu
 | Name              | Value                                                                                                                                                                                                                                                                                                   |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AZURE_CREDENTIALS | The JSON credentials for an Azure subscription. Make sure the Service Principal has permissions at the subscription level scope [Learn more](https://docs.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#create-a-service-principal-and-add-it-as-a-github-secret) |
-| RESOURCE_GROUP | The name of the resource group to create|
+| RESOURCE_GROUP | The name of the resource group created as a pre-requisite |
 | ACR_USERNAME | The user name given when enabling the Admin User on an Azure Container Registry |
 | ACR_PASSWORD | The corresponding password for the Admin User |
 

@@ -100,27 +100,19 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy bicep
-        uses: azure/arm-deploy@v1
+        uses: azure/CLI@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
-          template: ./deploy/main.bicep
-          parameters: minReplicas=0 nodeImage=${{ needs.package-services.outputs.containerImage-node }} nodePort=3000 pythonImage=${{ needs.package-services.outputs.containerImage-python }} pythonPort=5000 goImage=${{ needs.package-services.outputs.containerImage-go }} goPort=8050 containerRegistry=${{ env.REGISTRY }} containerRegistryUsername=${{ secrets.ACR_USERNAME }} containerRegistryPassword=${{ secrets.ACR_PASSWORD }} deployApim=false
-
-      # - name: Deploy bicep
-      #   uses: azure/CLI@v1
-      #   with:
-      #     inlineScript: |
-      #       az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
-      #        -p \
-      #           minReplicas=0 \
-      #           nodeImage='${{ needs.package-services.outputs.containerImage-node }}' \
-      #           nodePort=3000 \
-      #           pythonImage='${{ needs.package-services.outputs.containerImage-python }}' \
-      #           pythonPort=5000 \
-      #           goImage='${{ needs.package-services.outputs.containerImage-go }}' \
-      #           goPort=8050 \
-      #           containerRegistry=${{ env.REGISTRY }} \
-      #           containerRegistryUsername=${{ secrets.ACR_USERNAME }} \
-      #           containerRegistryPassword=${{ secrets.ACR_PASSWORD }} \
-      #           deployApim=false
+          inlineScript: |
+            az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
+             -p \
+                minReplicas=0 \
+                nodeImage='${{ needs.package-services.outputs.containerImage-node }}' \
+                nodePort=3000 \
+                pythonImage='${{ needs.package-services.outputs.containerImage-python }}' \
+                pythonPort=5000 \
+                goImage='${{ needs.package-services.outputs.containerImage-go }}' \
+                goPort=8050 \
+                containerRegistry=${{ env.REGISTRY }} \
+                containerRegistryUsername=${{ secrets.ACR_USERNAME }} \
+                containerRegistryPassword=${{ secrets.ACR_PASSWORD }} \
+                deployApim=false

@@ -26,9 +26,11 @@ The [`go-app`](./go-service) is a Go mux app that will retrieve and store the st
 
 ## Deploy via GitHub Actions 
 
-> **IMPORTANT NOTE**: This tutorial has been updated (8/2022) to use GITHUB.TOKEN instead of a GH PAT (Personal Access Token). If you have run this tutorial already, and have images that were pushed using a PAT, you will need to delete these from GHCR for the workflow to successfully write the updated images.
+> **IMPORTANT NOTE**: This version differs from the upstream in that it leverages Azure Container Registry rather than GitHub Packages to store container images. The deployment GitHub Workflow has been modified accordingly and now expects the following GitHub Action Secrets in addition to the others mentioned in this guide:
+1. ACR_PASSWORD
+2. ACR_USERNAME
 
-The entire solution is configured with [GitHub Actions](https://github.com/features/actions) and [Bicep](https://docs.microsoft.com/azure/azure-resource-manager/bicep/overview) for CI/CD
+The entire solution is configured with [GitHub Actions](https://github.com/features/actions) and [Bicep](https://docs.microsoft.com/azure/azure-resource-manager/bicep/overview) for CI/CD. 
 1. Fork the sample repo
 2. Create the following required [encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for the sample
 
@@ -36,6 +38,8 @@ The entire solution is configured with [GitHub Actions](https://github.com/featu
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AZURE_CREDENTIALS | The JSON credentials for an Azure subscription. Make sure the Service Principal has permissions at the subscription level scope [Learn more](https://docs.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#create-a-service-principal-and-add-it-as-a-github-secret) |
 | RESOURCE_GROUP | The name of the resource group to create|
+| ACR_USERNAME | The user name given when enabling the Admin User on an Azure Container Registry |
+| ACR_PASSWORD | The corresponding password for the Admin User |
 
 3. Open GitHub Actions, select the **Build and Deploy** action and choose to run the workflow. If you would like to deploy the sample with API Management, you can update the `deployApim` parameter to `true` in the `.github/workflows/build-and-deploy.yaml`.
 
@@ -55,5 +59,3 @@ The entire solution is configured with [GitHub Actions](https://github.com/featu
 ## Build and Run
 
 [Click here for instructions on building and running the application locally](build-and-run.md)
-
-

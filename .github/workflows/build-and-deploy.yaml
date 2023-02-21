@@ -45,7 +45,7 @@ jobs:
           [
             { "appName": "node-service", "directory": "./node-service" },
             { "appName": "python-service", "directory": "./python-service" },
-            { "appName": "go-service", "directory": "./go-service" },
+            { "appName": "go-service", "directory": "./go-service" }
           ]
     steps:
       - name: Checkout repository
@@ -85,6 +85,7 @@ jobs:
         id: image-tag
         run: |
           echo ::set-output name=image-${{ matrix.services.appName }}::${{ env.REGISTRY }}/${{ matrix.services.appName }}:sha-${{ needs.set-env.outputs.version }} | tr '[:upper:]' '[:lower:]'
+          echo "${{ matrix.services.appName }}=${{ env.REGISTRY }}/${{ matrix.services.appName }}:sha-${{ needs.set-env.outputs.version }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
 
   deploy:
     if: github.repository != 'Azure-samples/container-apps-store-api-microservice'
@@ -106,11 +107,11 @@ jobs:
             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
              -p \
                 minReplicas=0 \
-                nodeImage='${{ needs.package-services.outputs.containerImage-node }}' \
+                nodeImage='${{ env.node-service }}' \
                 nodePort=3000 \
-                pythonImage='${{ needs.package-services.outputs.containerImage-python }}' \
+                pythonImage='${{ env.python-service }}' \
                 pythonPort=5000 \
-                goImage='${{ needs.package-services.outputs.containerImage-go }}' \
+                goImage='${{ env.go-service }}' \
                 goPort=8050 \
                 containerRegistry=${{ env.REGISTRY }} \
                 containerRegistryUsername=${{ secrets.ACR_USERNAME }} \

@@ -99,11 +99,16 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      
 
       - name: Deploy bicep
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            echo ${{ env.node-service }}
+            echo ${{ env.python-service }}
+            echo ${{ env.go-service }}
             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/main.bicep \
              -p \
                 minReplicas=0 \
